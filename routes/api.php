@@ -6,6 +6,7 @@ use App\Http\Controllers\Reservation\ReservationGuestController;
 use App\Http\Controllers\User\UserAuthenticationController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\UserReservationController;
+use App\Http\Middleware\AuthorizeResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,16 +23,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/users', [UserController::class, 'index']);
     Route::get('/users/reservations', [UserReservationController::class, 'index']);
 
-    /**
-     * Location routes
-     */
     Route::resource('locations', LocationController::class);
     Route::get('/locations/{location}/reservations', [LocationController::class, 'reservations']);
-
-    /**
-     * Reservation routes
-     */
-    Route::resource('/reservations', ReservationController::class);
+    Route::resource('reservations', ReservationController::class);
 });
 
 

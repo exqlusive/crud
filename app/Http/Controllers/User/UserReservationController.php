@@ -10,7 +10,12 @@ class UserReservationController extends Controller
 {
     public function index(): UserReservationResource
     {
-        $user = auth()->user()->load('reservations');
-        return new UserReservationResource($user);
+        $user = auth()->user();
+
+        if ($user === null) {
+            abort(401);
+        }
+
+        return new UserReservationResource($user->load('reservations'));
     }
 }

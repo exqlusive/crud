@@ -11,6 +11,11 @@ class UserController extends Controller
     public function index(): UserResource
     {
         $user = auth()->user();
+
+        if ($user === null) {
+            abort(401);
+        }
+
         return new UserResource($user);
     }
 }

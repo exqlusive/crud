@@ -22,23 +22,31 @@ class LocationController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
+        $this->authorize('viewAny', Location::class);
+
         $locations = Location::all();
         return LocationResource::collection($locations);
     }
 
     public function show(Location $location): LocationResource
     {
+        $this->authorize('view', $location);
+
         return new LocationResource($location);
     }
 
     public function store(LocationRequest $request): LocationResource
     {
+        $this->authorize('create', Location::class);
+
         $location = Location::create($request->all());
         return new LocationResource($location);
     }
 
     public function update(UpdateLocationRequest $request, Location $location): LocationResource
     {
+        $this->authorize('update', $location);
+
         $this->location->updateLocationName($request, $location);
 
         $location->update($request->all());
@@ -48,12 +56,16 @@ class LocationController extends Controller
 
     public function destroy(Location $location): JsonResponse
     {
+        $this->authorize('delete', $location);
+
         $location->delete();
         return response()->json(['message' => 'Location deleted successfully']);
     }
 
     public function reservations(Location $location): AnonymousResourceCollection
     {
+        $this->authorize('view', $location);
+
         return ReservationResource::collection($location->reservations);
     }
 }
