@@ -26,6 +26,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
      * Location routes
      */
     Route::resource('locations', LocationController::class);
+    Route::get('/locations/{location}/reservations', [LocationController::class, 'reservations']);
 
     /**
      * Reservation routes

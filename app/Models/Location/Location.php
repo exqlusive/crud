@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
  * @property string $uuid
  * @property string $name
  * @property string $slug
+ * @property mixed $reservations
  */
 class Location extends Model
 {

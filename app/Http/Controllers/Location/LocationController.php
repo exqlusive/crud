@@ -6,14 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Location\LocationRequest;
 use App\Http\Requests\Location\UpdateLocationRequest;
 use App\Http\Resources\Location\LocationResource;
+use App\Http\Resources\Reservation\ReservationResource;
 use App\Models\Location\Location;
+use App\Services\Location\LocationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class LocationController extends Controller
 {
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function __construct(
+        private readonly LocationService $location,
+    ) {
+    }
+
+    public function index(): AnonymousResourceCollection
     {
         $locations = Location::all();
         return LocationResource::collection($locations);
@@ -32,20 +39,7 @@ class LocationController extends Controller
 
     public function update(UpdateLocationRequest $request, Location $location): LocationResource
     {
-        // Update slug if name has changed
-        if ($request->has('name') && $request->name !== $location->name) {
-            $slug = Str::slug($request->name);
-            $originalSlug = $slug;
-            $counter = 1;
-
-            // Ensure the slug is unique
-            while (Location::where('slug', $slug)->exists()) {
-                $slug = "{$originalSlug}-{$counter}";
-                $counter++;
-            }
-
-            $location->slug = $slug;
-        }
+        $this->location->updateLocationName($request, $location);
 
         $location->update($request->all());
 
@@ -56,5 +50,10 @@ class LocationController extends Controller
     {
         $location->delete();
         return response()->json(['message' => 'Location deleted successfully']);
+    }
+
+    public function reservations(Location $location): AnonymousResourceCollection
+    {
+        return ReservationResource::collection($location->reservations);
     }
 }
