@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\User\UserReservationResource;
 use Illuminate\Http\Request;
 
 class UserReservationController extends Controller
 {
-    public function index()
+    public function index(): UserReservationResource
     {
-        return response()->json(auth()->user()->reservations()->with('location')->get());
+        $user = auth()->user()->load('reservations');
+        return new UserReservationResource($user);
     }
 }

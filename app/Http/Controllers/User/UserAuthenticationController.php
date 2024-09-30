@@ -13,7 +13,6 @@ use Illuminate\Validation\ValidationException;
 
 class UserAuthenticationController extends Controller
 {
-    // Register a new user
     public function register(StoreUserRequest $request): JsonResponse
     {
         $user = User::create([
@@ -43,34 +42,20 @@ class UserAuthenticationController extends Controller
             ]);
         }
 
-        $abilities = $this->getAbilitiesForRole($user->role);
-
-        // Create a token with specific abilities
-        $token = $user->createToken('api-token', $abilities)->plainTextToken;
+        $token = $user->createToken('access_token')->plainTextToken;
 
         return response()->json(['token' => $token]);
     }
 
-    // Get the authenticated user
     public function user(Request $request)
     {
         return $request->user();
     }
 
-    // Logout and delete the token
     public function logout(Request $request): JsonResponse
     {
         $request->user()->currentAccessToken()->delete();
 
         return response()->json(['message' => 'Logged out successfully']);
-    }
-
-    protected function getAbilitiesForRole(string $role): array
-    {
-        return match ($role) {
-            'admin' => ['manage-locations', 'manage-reservations', 'view-users'],
-            'location_manager' => ['view-locations', 'manage-reservations'],
-            default => ['view-reservations'],
-        };
     }
 }

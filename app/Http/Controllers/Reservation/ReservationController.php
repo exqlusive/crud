@@ -4,32 +4,31 @@ namespace App\Http\Controllers\Reservation;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reservation\ReservationRequest;
+use App\Http\Requests\Reservation\UpdateReservationRequest;
+use App\Http\Resources\Reservation\ReservationResource;
 use App\Models\Reservation\Reservation;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ReservationController extends Controller
 {
     // Get reservations (user's own or all for managers)
-    public function index(Request $request): JsonResponse
+    public function index(Request $request): AnonymousResourceCollection
     {
-        $this->authorize('viewAny', Reservation::class);
-
         $reservations = Reservation::with('location', 'user')
             ->when($request->user()->role !== 'location_manager', function ($query) use ($request) {
                 $query->where('user_id', $request->user()->id);
             })
             ->get();
 
-        return response()->json($reservations);
+        return ReservationResource::collection($reservations);
     }
 
     // Get a single reservation
     public function show(Reservation $reservation): JsonResponse
     {
-        $this->authorize('view', $reservation);
-
         return response()->json($reservation->load('location', 'user'));
     }
 
@@ -42,13 +41,8 @@ class ReservationController extends Controller
     }
 
     // Update a reservation
-    public function update(Request $request, Reservation $reservation): JsonResponse
+    public function update(UpdateReservationRequest $request, Reservation $reservation): JsonResponse
     {
-        $request->validate([
-            'date' => 'sometimes|date',
-            'time' => 'sometimes',
-        ]);
-
         $reservation->update($request->all());
 
         return response()->json($reservation);

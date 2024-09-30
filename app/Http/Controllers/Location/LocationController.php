@@ -3,65 +3,58 @@
 namespace App\Http\Controllers\Location;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Location\LocationRequest;
+use App\Http\Requests\Location\UpdateLocationRequest;
+use App\Http\Resources\Location\LocationResource;
 use App\Models\Location\Location;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class LocationController extends Controller
 {
-    use AuthorizesRequests;
-
-    // Show all locations (publicly accessible)
-    public function index(): JsonResponse
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         $locations = Location::all();
-        return response()->json($locations);
+        return LocationResource::collection($locations);
     }
 
-    // Show a single location (publicly accessible)
-    public function show(Location $location): JsonResponse
+    public function show(Location $location): LocationResource
     {
-        return response()->json($location);
+        return new LocationResource($location);
     }
 
-    // Create a new location (admin only)
-    public function store(Request $request): JsonResponse
+    public function store(LocationRequest $request): LocationResource
     {
-        $this->authorize('create', Location::class);
-
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
-
         $location = Location::create($request->all());
-
-        return response()->json($location, 201);
+        return new LocationResource($location);
     }
 
-    // Update a location (admin only)
-    public function update(Request $request, Location $location): JsonResponse
+    public function update(UpdateLocationRequest $request, Location $location): LocationResource
     {
-        $this->authorize('update', $location);
+        // Update slug if name has changed
+        if ($request->has('name') && $request->name !== $location->name) {
+            $slug = Str::slug($request->name);
+            $originalSlug = $slug;
+            $counter = 1;
 
-        $request->validate([
-            'name' => 'sometimes|string|max:255',
-            'address' => 'sometimes|string|max:255',
-            // Other location fields...
-        ]);
+            // Ensure the slug is unique
+            while (Location::where('slug', $slug)->exists()) {
+                $slug = "{$originalSlug}-{$counter}";
+                $counter++;
+            }
+
+            $location->slug = $slug;
+        }
 
         $location->update($request->all());
 
-        return response()->json($location);
+        return new LocationResource($location);
     }
 
-    // Delete a location (admin only)
     public function destroy(Location $location): JsonResponse
     {
-        $this->authorize('delete', $location);
-
         $location->delete();
-
         return response()->json(['message' => 'Location deleted successfully']);
     }
 }

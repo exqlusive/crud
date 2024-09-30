@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Http\Resources\User;
+
+use App\Http\Resources\Reservation\ReservationResource;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+/**
+ * @property mixed $id
+ * @property mixed $name
+ * @property mixed $email
+ * @property mixed $created_at
+ * @property mixed $updated_at
+ */
+class UserReservationResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'reservations' => ReservationResource::collection($this->whenLoaded('reservations')),
+        ];
+    }
+}
