@@ -16,6 +16,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property mixed $number_of_guests
  * @property mixed $created_at
  * @property mixed $updated_at
+ * @property mixed $uuid
  */
 class ReservationResource extends JsonResource
 {
@@ -28,6 +29,7 @@ class ReservationResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'uuid' => $this->uuid,
             'user_id' => $this->user_id,
             'location_id' => $this->location_id,
             'arrival_date' => $this->arrival_date,

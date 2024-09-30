@@ -35,6 +35,7 @@ class ReservationTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 'id',
+                'uuid',
                 'user_id',
                 'location_id',
                 'arrival_date',
@@ -44,6 +45,7 @@ class ReservationTest extends TestCase
                 'updated_at',
                 'location' => [
                     'id',
+                    'uuid',
                     'name',
                     'slug',
                     'created_at',
@@ -51,6 +53,7 @@ class ReservationTest extends TestCase
                 ],
                 'user' => [
                     'id',
+                    'uuid',
                     'name',
                     'email',
                     'created_at',
@@ -131,6 +134,7 @@ class ReservationTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 'id',
+                'uuid',
                 'user_id',
                 'location_id',
                 'arrival_date',
@@ -140,6 +144,7 @@ class ReservationTest extends TestCase
                 'updated_at',
                 'location' => [
                     'id',
+                    'uuid',
                     'name',
                     'slug',
                     'created_at',
@@ -147,6 +152,7 @@ class ReservationTest extends TestCase
                 ],
                 'user' => [
                     'id',
+                    'uuid',
                     'name',
                     'email',
                     'created_at',
@@ -201,6 +207,7 @@ class ReservationTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 'id',
+                'uuid',
                 'user_id',
                 'location_id',
                 'arrival_date',
@@ -210,6 +217,7 @@ class ReservationTest extends TestCase
                 'updated_at',
                 'location' => [
                     'id',
+                    'uuid',
                     'name',
                     'slug',
                     'created_at',
@@ -217,6 +225,7 @@ class ReservationTest extends TestCase
                 ],
                 'user' => [
                     'id',
+                    'uuid',
                     'name',
                     'email',
                     'created_at',
@@ -252,6 +261,7 @@ class ReservationTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 'id',
+                'uuid',
                 'user_id',
                 'location_id',
                 'arrival_date',

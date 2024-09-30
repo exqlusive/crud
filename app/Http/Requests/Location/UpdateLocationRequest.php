@@ -27,7 +27,6 @@ class UpdateLocationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'location_id' => 'required|exists:locations,id',
             'name' => 'required|string|max:255',
         ];
     }
@@ -35,8 +34,6 @@ class UpdateLocationRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'location_id.required' => 'The location field is required.',
-            'location_id.exists' => 'The location does not exist.',
             'name.required' => 'The name field is required.',
         ];
     }

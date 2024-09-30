@@ -12,7 +12,7 @@ class LocationPolicy
      */
     public function viewAny(?User $user): bool
     {
-        return $user->isLocationManager() || $user->isAdmin();
+        return $user->isAdmin();
     }
 
     /**
@@ -20,7 +20,7 @@ class LocationPolicy
      */
     public function view(?User $user, Location $location): bool
     {
-        return $user->isLocationManager() || $user->isAdmin();
+        return $user->isAdmin();
     }
 
     /**

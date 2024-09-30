@@ -23,6 +23,7 @@ class LocationResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'uuid' => $this->uuid,
             'name' => $this->name,
             'slug' => $this->slug,
             'created_at' => $this->created_at,
