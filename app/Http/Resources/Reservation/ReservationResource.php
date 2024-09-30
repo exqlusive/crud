@@ -33,10 +33,10 @@ class ReservationResource extends JsonResource
             'arrival_date' => $this->arrival_date,
             'departure_date' => $this->departure_date,
             'number_of_guests' => $this->number_of_guests,
-            'location' => new LocationResource($this->whenLoaded('location')),
-            'user' => new UserResource($this->whenLoaded('user')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'location' => new LocationResource($this->whenLoaded('location')),
+            'user' => new UserResource($this->whenLoaded('user')),
         ];
     }
 }
