@@ -20,9 +20,9 @@ class Reservation extends Model
         'uuid',
         'location_id',
         'user_id',
-        'date',
-        'time',
-        'status',
+        'arrival_date',
+        'departure_date',
+        'number_of_guests',
     ];
 
     public function location(): BelongsTo

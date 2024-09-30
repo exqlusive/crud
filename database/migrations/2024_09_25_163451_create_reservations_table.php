@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('location_id')->constrained()->cascadeOnDelete();
 
-            $table->dateTime('arrival_date');
-            $table->dateTime('departure_date');
+            $table->date('arrival_date');
+            $table->date('departure_date');
             $table->integer('number_of_guests');
 
             $table->timestamps();

@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\Location\LocationController;
 use App\Http\Controllers\Reservation\ReservationController;
+use App\Http\Controllers\Reservation\ReservationGuestController;
 use App\Http\Controllers\User\UserAuthenticationController;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\UserReservationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,9 +16,21 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::resource('locations', LocationController::class);
-});
+    /**
+     * User routes
+     */
+    Route::get('/users', [UserController::class, 'index']);
+    Route::get('/users/reservations', [UserReservationController::class, 'index']);
 
-Route::middleware(['auth:sanctum'])->group(function () {
+    /**
+     * Location routes
+     */
+    Route::resource('locations', LocationController::class);
+
+    /**
+     * Reservation routes
+     */
     Route::resource('/reservations', ReservationController::class);
 });
+
+

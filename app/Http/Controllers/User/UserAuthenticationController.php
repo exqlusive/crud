@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginUserRequest;
-use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\Authentication\LoginUserRequest;
+use App\Http\Requests\Authentication\StoreUserRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
