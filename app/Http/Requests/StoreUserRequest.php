@@ -4,6 +4,11 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property mixed $password
+ * @property mixed $name
+ * @property mixed $email
+ */
 class StoreUserRequest extends FormRequest
 {
     /**

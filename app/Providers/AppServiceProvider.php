@@ -2,6 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Location\Location;
+use App\Models\Reservation\Reservation;
+use App\Policies\Location\LocationPolicy;
+use App\Policies\Reservation\ReservationPolicy;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::policy(Reservation::class, ReservationPolicy::class);
+        Gate::policy(Location::class, LocationPolicy::class);
     }
 }

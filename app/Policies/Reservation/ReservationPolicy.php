@@ -15,7 +15,7 @@ class ReservationPolicy
      */
     public function viewAny(User $user): bool
     {
-        return in_array($user->role, ['admin', 'location_manager']);
+        return $user->isLocationManager() || $user->isAdmin();
     }
 
     /**
@@ -23,7 +23,7 @@ class ReservationPolicy
      */
     public function view(User $user, Reservation $reservation): bool
     {
-        return $user->id === $reservation->user_id || $user->role === 'location_manager';
+        return $user->id === $reservation->user_id || $user->isLocationManager() || $user->isAdmin();
     }
 
     /**
@@ -31,7 +31,7 @@ class ReservationPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->isLocationManager() || $user->isAdmin();
     }
 
     /**
@@ -39,7 +39,7 @@ class ReservationPolicy
      */
     public function update(User $user, Reservation $reservation): bool
     {
-        //
+        return $user->isLocationManager() || $user->isAdmin();
     }
 
     /**
@@ -47,7 +47,7 @@ class ReservationPolicy
      */
     public function delete(User $user, Reservation $reservation): bool
     {
-        //
+        return $user->isLocationManager() || $user->isAdmin();
     }
 
     /**
@@ -55,7 +55,7 @@ class ReservationPolicy
      */
     public function restore(User $user, Reservation $reservation): bool
     {
-        //
+        return $user->isLocationManager() || $user->isAdmin();
     }
 
     /**
@@ -63,6 +63,6 @@ class ReservationPolicy
      */
     public function forceDelete(User $user, Reservation $reservation): bool
     {
-        //
+        return $user->isLocationManager() || $user->isAdmin();
     }
 }

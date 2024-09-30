@@ -12,8 +12,7 @@ class LocationPolicy
      */
     public function viewAny(?User $user): bool
     {
-        // Anyone (including guests) can view locations
-        return true;
+        return $user->isLocationManager() || $user->isAdmin();
     }
 
     /**
@@ -21,7 +20,7 @@ class LocationPolicy
      */
     public function view(?User $user, Location $location): bool
     {
-        return true;
+        return $user->isLocationManager() || $user->isAdmin();
     }
 
     /**

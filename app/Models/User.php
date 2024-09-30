@@ -62,6 +62,11 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
+    public function isLocationManager(): bool
+    {
+        return $this->role === 'location_manager';
+    }
+
     public function addresses(): HasMany
     {
         return $this->hasMany(Address::class);
